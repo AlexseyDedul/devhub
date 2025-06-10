@@ -52,9 +52,11 @@ public class JwtService {
                 .getBody();
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User userDetails) {
         Map<String, Object> claims = Map.of(
-                "salt", UUID.randomUUID().toString()
+                "salt", UUID.randomUUID().toString(),
+                "id", userDetails.getId().toString(),
+                "roles", userDetails.getRoles().stream().map(role -> role.getRoleType().name()).toList()
         );
 
         return generateToken(claims, userDetails);

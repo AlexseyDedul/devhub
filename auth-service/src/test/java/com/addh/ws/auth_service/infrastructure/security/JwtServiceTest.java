@@ -1,5 +1,7 @@
 package com.addh.ws.auth_service.infrastructure.security;
 
+import com.addh.ws.auth_service.domain.enums.RoleType;
+import com.addh.ws.auth_service.domain.model.Role;
 import com.addh.ws.auth_service.domain.model.User;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,10 +28,12 @@ class JwtServiceTest {
 
     @Test
     void testGenerateAndValidateAccessToken() {
-        UserDetails userDetails = org.springframework.security.core.userdetails.User
-                .withUsername("test@example.com")
+        User userDetails = User
+                .builder()
+                .id(UUID.randomUUID())
+                .email("test@example.com")
                 .password("password")
-                .roles("USER")
+                .roles(Set.of(Role.builder().roleType(RoleType.USER).build()))
                 .build();
 
         String token = jwtService.generateToken(userDetails);
