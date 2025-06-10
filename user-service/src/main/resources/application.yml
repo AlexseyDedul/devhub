@@ -1,0 +1,34 @@
+server:
+  port: 50402
+
+jwt:
+  secret: ead71fc94c76ee4bcb4ac267c54a87f7aef882e34f41ad3479a706cff8347b218002fba11b592e787493e73b3196ddbab87880936ff62bd1dca4eb5cd47fd5b5e4dc3bc144f414ef82ae25301e2eba5febe306de99cf383d45d96adba8f568d746d63bf84b75493740bd0b2c721def2d97dfd2a171756c93001f0e7d81f90be6a519d1b8ef2476e92e6e72744636f75e929d31c76011ba27bfd4b5d3e766ae9ff019ac8201c0024ea6f4e059ad11a74b837b4775ac64dbecdde2cf9946496681e38aae6fb706fed692ece68bc5dcb36fe92b946d5080f7f7006c9b6d3a19c2a6b4f0e97b56b4c2535d9748f7701dc82d741f954b3b5d38c53787ef9628db9a4f
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/devhub_users_credentials
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
