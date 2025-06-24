@@ -1,27 +1,24 @@
 package com.addh.ws.auth_service.api.controller;
 
-import com.addh.ws.auth_service.api.application.service.AuthService;
-import com.addh.ws.auth_service.api.dto.AuthResponse;
-import com.addh.ws.auth_service.api.dto.LoginRequest;
-import com.addh.ws.auth_service.api.dto.RegisterRequest;
-import com.addh.ws.auth_service.api.dto.UserProfileDto;
-import com.addh.ws.auth_service.domain.model.User;
+
+import com.addh.ws.auth_service.api.dto.*;
+import com.addh.ws.auth_service.domain.ports.AuthServicePort;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthService authService;
+    private final AuthServicePort authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.register(registerRequest));
+    public ResponseEntity<Void> register(@RequestBody RegisterRequest registerRequest) {
+        authService.register(registerRequest);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
@@ -31,14 +28,8 @@ public class AuthController {
 
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/refresh-token")
-    public ResponseEntity<AuthResponse> refreshToken(HttpServletRequest request) {
+    public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
         return ResponseEntity.ok(authService.refreshToken(request));
-    }
-
-    @SecurityRequirement(name = "bearerAuth")
-    @PostMapping("is-token-valid")
-    public ResponseEntity<Boolean> isTokenValid(HttpServletRequest request) {
-        return ResponseEntity.ok(authService.isTokenValid(request));
     }
 
     @SecurityRequirement(name = "bearerAuth")
@@ -50,9 +41,8 @@ public class AuthController {
 
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/me")
-    public ResponseEntity<UserProfileDto> getCurrentUser(Authentication authentication) {
-        var user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(UserProfileDto.fromUser(user));
+    public ResponseEntity<UserProfileDto> getCurrentUser(HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(authService.getCurrentUser(httpServletRequest));
     }
 
 }

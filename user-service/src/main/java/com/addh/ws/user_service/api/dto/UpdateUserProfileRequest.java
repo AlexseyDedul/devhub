@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserProfileRequest {
-    private String displayName;
     private String avatarUrl;
     private String bio;
     private String location;
