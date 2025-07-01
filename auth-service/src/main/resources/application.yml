@@ -1,35 +1,35 @@
 server:
-  port: 50401
+  port: ${SERVER_PORT:8080}
 
 spring:
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/devhub_realm
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
       client:
         registration:
           keycloak:
-            client-id: spring-boot-client
-            client-secret: 8c92000a-d6ae-4d3e-b5c2-d2a71bb9b172
+            client-id: ${KEYCLOAK_CLIENT_ID}
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
             authorization-grant-type: password
             scope: openid
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/devhub_realm
+            issuer-uri: ${KEYCLOAK_ISSUER_URI}
             user-name-attribute: preferred_username
 
 keycloak:
-  realm: devhub_realm
-  client-id: spring-boot-client
-  client-secret: 8c92000a-d6ae-4d3e-b5c2-d2a71bb9b172
-  token-uri: http://localhost:8080/realms/devhub_realm/protocol/openid-connect/token
-  userinfo-uri: http://localhost:8080/realms/devhub_realm/protocol/openid-connect/userinfo
-  admin-user-create-uri: http://localhost:8080/admin/realms/devhub_realm/users
-  roles-uri: http://localhost:8080/admin/realms/devhub_realm/roles
-  roles-mapping-uri: http://localhost:8080/admin/realms/devhub_realm/users/%s/role-mappings/realm
-  admin-login: admin
-  admin-password: adminuser
+  realm: ${KEYCLOAK_REALM}
+  client-id: ${KEYCLOAK_CLIENT_ID}
+  client-secret: ${KEYCLOAK_CLIENT_SECRET:default}
+  token-uri: ${KEYCLOAK_TOKEN_URI}
+  userinfo-uri: ${KEYCLOAK_USERINFO_URI}
+  admin-user-create-uri: ${KEYCLOAK_ADMIN_CREATE_URI}
+  roles-uri: ${KEYCLOAK_ROLES_URI}
+  roles-mapping-uri: ${KEYCLOAK_ROLE_MAPPING_URI}
+  admin-login: ${KEYCLOAK_ADMIN_LOGIN}
+  admin-password: ${KEYCLOAK_ADMIN_PASSWORD}
 
 springdoc:
   api-docs:
@@ -41,4 +41,13 @@ logging:
   level:
     org.springframework.security: DEBUG
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+  security:
+    enabled: false

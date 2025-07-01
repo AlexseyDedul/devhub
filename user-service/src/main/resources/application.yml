@@ -1,5 +1,5 @@
 server:
-  port: 50402
+  port: ${SERVER_PORT:50402}
 
 springdoc:
   api-docs:
@@ -11,9 +11,9 @@ spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/devhub_users_credentials
-    username: postgres
-    password: postgres
+    url: ${PG_URL}
+    username: ${PG_USERNAME}
+    password: ${PG_PWD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -29,9 +29,19 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/devhub_realm
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
 
 logging:
   level:
     org.springframework.security: DEBUG
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+  security:
+    enabled: false

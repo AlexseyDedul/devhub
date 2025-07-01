@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service-config
+data:
+  SERVER_PORT: "50401"
+  KEYCLOAK_CLIENT_ID: "spring-boot-client"
+  KEYCLOAK_ISSUER_URI: "http://keycloak:8080/realms/devhub_realm"
+  KEYCLOAK_REALM: "devhub_realm"
+  KEYCLOAK_TOKEN_URI: "http://keycloak:8080/realms/devhub_realm/protocol/openid-connect/token"
+  KEYCLOAK_USERINFO_URI: "http://keycloak:8080/realms/devhub_realm/protocol/openid-connect/userinfo"
+  KEYCLOAK_ADMIN_CREATE_URI: "http://keycloak:8080/admin/realms/devhub_realm/users"
+  KEYCLOAK_ROLES_URI: "http://keycloak:8080/admin/realms/devhub_realm/roles"
+  KEYCLOAK_ROLE_MAPPING_URI: "http://keycloak:8080/admin/realms/devhub_realm/users/%s/role-mappings/realm"
+  KEYCLOAK_ADMIN_LOGIN: "admin"

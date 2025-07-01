@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service-config
+data:
+  SERVER_PORT: "50402"
+  KEYCLOAK_ISSUER_URI: "http://keycloak:8080/realms/devhub_realm"
+  PG_URL: "jdbc:postgresql://user-postgres:5432/devhub_users_credentials"
+  PG_USERNAME: "postgres"
+  PG_PWD: "postgres"
